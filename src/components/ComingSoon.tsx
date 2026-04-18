@@ -206,9 +206,29 @@ export function ComingSoon() {
           ))}
         </motion.ul>
 
+        <motion.div
+          className="mt-10 flex flex-col items-center gap-1"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: REVEAL_OFFSET + 2.5 }}
+        >
+          <p
+            className="text-sm font-semibold text-white/90"
+            style={{
+              textShadow: "0 1px 0 rgba(0,0,0,0.6), 0 4px 14px rgba(0,0,0,0.6)",
+            }}
+          >
+            <span className="text-brand-gradient">Free + Premium</span> tiers at
+            launch.
+          </p>
+          <p className="text-xs text-white/55">
+            Get early Premium access + founding-member pricing.
+          </p>
+        </motion.div>
+
         <motion.form
           onSubmit={submit}
-          className="mt-10 flex w-full max-w-md flex-col gap-3 sm:flex-row"
+          className="mt-4 flex w-full max-w-md flex-col gap-3 sm:flex-row"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: REVEAL_OFFSET + 2.6 }}
