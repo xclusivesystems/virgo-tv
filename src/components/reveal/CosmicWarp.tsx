@@ -1,5 +1,7 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import { REVEAL } from "./shared/revealTokens";
 
 interface Props { onComplete: () => void; }
@@ -11,10 +13,17 @@ interface Particle {
   size: number;
 }
 
+type Phase = "warp" | "nebula" | "constellation" | "bloom";
+const PHASE_ORDER: Phase[] = ["warp", "nebula", "constellation", "bloom"];
+const phaseAtLeast = (current: Phase, target: Phase) =>
+  PHASE_ORDER.indexOf(current) >= PHASE_ORDER.indexOf(target);
+
 export function CosmicWarp({ onComplete }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const startedRef = useRef<number>(0);
   const completedRef = useRef(false);
+  const phaseRef = useRef<Phase>("warp");
+  const [phase, setPhase] = useState<Phase>("warp");
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -48,6 +57,13 @@ export function CosmicWarp({ onComplete }: Props) {
     startedRef.current = performance.now();
     let frame = 0;
 
+    const advancePhase = (next: Phase) => {
+      if (phaseRef.current !== next && PHASE_ORDER.indexOf(next) > PHASE_ORDER.indexOf(phaseRef.current)) {
+        phaseRef.current = next;
+        setPhase(next);
+      }
+    };
+
     const draw = () => {
       const now = performance.now();
       const t = (now - startedRef.current) / 1000;
@@ -67,12 +83,14 @@ export function CosmicWarp({ onComplete }: Props) {
         ctx.fill();
       }
 
-      // warp particles 0.4–2.4s
-      if (t >= 0.4 && t < 2.4) {
+      // warp particles 0.4–2.4s (continue past 2.4 for tail-off into nebula)
+      if (t >= 0.4 && t < 2.6) {
         const localT = (t - 0.4) / 1.4;
         const accel = Math.min(localT, 1);
+        // decel after 1.8s
+        const decel = t > 1.8 ? Math.max(0, 1 - (t - 1.8) / 0.6) : 1;
         for (const p of particles) {
-          p.radius += (p.speed * accel) / 60;
+          p.radius += (p.speed * accel * decel) / 60;
           if (p.radius > Math.hypot(cx, cy) + 20) p.radius = 0;
           const x = cx + Math.cos(p.angle) * p.radius;
           const y = cy + Math.sin(p.angle) * p.radius;
@@ -80,8 +98,9 @@ export function CosmicWarp({ onComplete }: Props) {
           const x2 = cx + Math.cos(p.angle) * (p.radius - tail);
           const y2 = cy + Math.sin(p.angle) * (p.radius - tail);
           const grad = ctx.createLinearGradient(x, y, x2, y2);
-          grad.addColorStop(0, "rgba(255,255,255,0.9)");
-          grad.addColorStop(0.5, "rgba(34,211,238,0.6)");
+          const fade = t > 2.2 ? Math.max(0, 1 - (t - 2.2) / 0.4) : 1;
+          grad.addColorStop(0, `rgba(255,255,255,${0.9 * fade})`);
+          grad.addColorStop(0.5, `rgba(34,211,238,${0.6 * fade})`);
           grad.addColorStop(1, "rgba(217,70,239,0)");
           ctx.strokeStyle = grad;
           ctx.lineWidth = p.size;
@@ -91,6 +110,11 @@ export function CosmicWarp({ onComplete }: Props) {
           ctx.stroke();
         }
       }
+
+      // phase transitions
+      if (t >= 1.8) advancePhase("nebula");
+      if (t >= 2.4) advancePhase("constellation");
+      if (t >= 2.7) advancePhase("bloom");
 
       if (t < REVEAL.contentRevealAt && !completedRef.current) {
         frame = requestAnimationFrame(draw);
@@ -108,9 +132,90 @@ export function CosmicWarp({ onComplete }: Props) {
   }, [onComplete]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
-    />
+    <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
+      <canvas
+        ref={canvasRef}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
+      />
+      <AnimatePresence>
+        {phaseAtLeast(phase, "nebula") && (
+          <motion.div
+            key="nebula"
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 0.85, scale: 1.0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6, ease: REVEAL.ease.decel }}
+            style={{
+              position: "absolute",
+              inset: 0,
+              mixBlendMode: "screen",
+            }}
+          >
+            <Image
+              src="/reveal/cosmic/nebula-plate.webp"
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              style={{ objectFit: "cover" }}
+            />
+          </motion.div>
+        )}
+        {phaseAtLeast(phase, "constellation") && (
+          <motion.div
+            key="con"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            style={{
+              position: "absolute",
+              inset: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              mixBlendMode: "screen",
+            }}
+          >
+            <div style={{ position: "relative", width: 480, height: 480 }}>
+              <Image
+                src="/reveal/cosmic/virgo-constellation.webp"
+                alt=""
+                fill
+                priority
+                sizes="480px"
+                style={{ objectFit: "contain" }}
+              />
+            </div>
+          </motion.div>
+        )}
+        {phaseAtLeast(phase, "bloom") && (
+          <motion.div
+            key="bloom"
+            initial={{ opacity: 0, scale: 0.6 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.2 }}
+            style={{
+              position: "absolute",
+              inset: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              mixBlendMode: "screen",
+            }}
+          >
+            <div style={{ position: "relative", width: 600, height: 600 }}>
+              <Image
+                src="/reveal/cosmic/lens-bloom.webp"
+                alt=""
+                fill
+                priority
+                sizes="600px"
+                style={{ objectFit: "contain" }}
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
