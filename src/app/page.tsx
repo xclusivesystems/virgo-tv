@@ -1,9 +1,12 @@
 import { ComingSoon } from "@/components/ComingSoon";
+import { CurtainReveal } from "@/components/CurtainReveal";
 
 export default function Home() {
   return (
     <main>
-      <ComingSoon />
+      <CurtainReveal>
+        <ComingSoon />
+      </CurtainReveal>
     </main>
   );
 }

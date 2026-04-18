@@ -12,6 +12,8 @@ import { Starfield } from "@/components/hero/Starfield";
 type Status = "idle" | "submitting" | "success";
 
 const COMING_SOON = "COMING SOON";
+// Reveal cadence assumes a curtain reveal finishes ~2.2s after page load.
+const REVEAL_OFFSET = 2.3;
 
 const PROVIDING = [
   { Icon: Star, label: "Virgo Originals" },
@@ -74,7 +76,7 @@ export function ComingSoon() {
         <motion.div
           initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1, delay: REVEAL_OFFSET, ease: [0.22, 1, 0.36, 1] }}
         >
           <Image
             src="/logo.png"
@@ -93,7 +95,12 @@ export function ComingSoon() {
           animate="visible"
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.07, delayChildren: 0.6 } },
+            visible: {
+              transition: {
+                staggerChildren: 0.07,
+                delayChildren: REVEAL_OFFSET + 0.6,
+              },
+            },
           }}
         >
           {COMING_SOON.split("").map((ch, i) => (
@@ -119,7 +126,7 @@ export function ComingSoon() {
           className="mt-4 max-w-md text-base text-white/70 sm:text-lg"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 1.7 }}
+          transition={{ duration: 0.7, delay: REVEAL_OFFSET + 1.7 }}
         >
           A new universe of entertainment.
         </motion.p>
@@ -130,7 +137,12 @@ export function ComingSoon() {
           animate="visible"
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.08, delayChildren: 1.9 } },
+            visible: {
+              transition: {
+                staggerChildren: 0.08,
+                delayChildren: REVEAL_OFFSET + 1.9,
+              },
+            },
           }}
         >
           {PROVIDING.map(({ Icon, label }) => (
@@ -156,7 +168,7 @@ export function ComingSoon() {
           className="mt-10 flex w-full max-w-md flex-col gap-3 sm:flex-row"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 2.5 }}
+          transition={{ duration: 0.6, delay: REVEAL_OFFSET + 2.5 }}
         >
           <label htmlFor="waitlist-email" className="sr-only">
             Email address
@@ -196,7 +208,7 @@ export function ComingSoon() {
           className="mt-12 text-xs text-white/40"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 3 }}
+          transition={{ duration: 0.6, delay: REVEAL_OFFSET + 3 }}
         >
           © 2026 Virgo TV
         </motion.p>
