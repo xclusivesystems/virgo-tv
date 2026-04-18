@@ -41,6 +41,14 @@ export function HoloBoot({ onComplete }: Props) {
         overflow: "hidden",
       }}
     >
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes virgoHoloGlitch {
+          0%, 100% { clip-path: inset(0 0 0 0); transform: translateX(0); }
+          20% { clip-path: inset(40% 0 30% 0); transform: translateX(-3px); }
+          40% { clip-path: inset(10% 0 70% 0); transform: translateX(3px); }
+          60% { clip-path: inset(0 0 0 0); transform: translateX(0); }
+        }
+      ` }} />
       {/* Ambient glow */}
       <div
         style={{
@@ -99,14 +107,69 @@ export function HoloBoot({ onComplete }: Props) {
             mixBlendMode: "screen",
           }}
         >
-          <Image
-            src="/reveal/holo/holo-panel.webp"
-            alt=""
-            fill
-            priority
-            sizes="280px"
-            style={{ objectFit: "contain" }}
-          />
+          {/* Inner wrapper: isolates glitch animation from Framer Motion transforms */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              animation:
+                i === visiblePanels.length - 1
+                  ? "virgoHoloGlitch 60ms linear 1.7s 1"
+                  : undefined,
+            }}
+          >
+            <Image
+              src="/reveal/holo/holo-panel.webp"
+              alt=""
+              fill
+              priority
+              sizes="280px"
+              style={{ objectFit: "contain" }}
+            />
+
+            {/* Glyph strip scrolling inside panel */}
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: "100%" }}
+              transition={{
+                duration: 1.6,
+                delay: 1.1 + i * 0.05,
+                ease: "linear",
+              }}
+              style={{
+                position: "absolute",
+                inset: "20% 5% 20% 5%",
+                backgroundImage: "url(/reveal/holo/glyph-strip.webp)",
+                backgroundRepeat: "repeat-x",
+                backgroundSize: "auto 100%",
+                opacity: 0.35,
+                mixBlendMode: "screen",
+                pointerEvents: "none",
+              }}
+            />
+
+            {/* Scan-line sweep */}
+            <motion.div
+              initial={{ y: "-100%", opacity: 0 }}
+              animate={{ y: "100%", opacity: [0, 1, 0] }}
+              transition={{
+                duration: 0.4,
+                delay: 1.5 + i * 0.06,
+                ease: "linear",
+              }}
+              style={{
+                position: "absolute",
+                left: 0,
+                right: 0,
+                top: 0,
+                height: 4,
+                background:
+                  "linear-gradient(90deg, transparent, #22d3ee, transparent)",
+                boxShadow: "0 0 12px rgba(34,211,238,0.8)",
+                pointerEvents: "none",
+              }}
+            />
+          </div>
         </motion.div>
       ))}
     </div>
