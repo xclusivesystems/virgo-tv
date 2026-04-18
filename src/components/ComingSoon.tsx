@@ -8,6 +8,7 @@ import { Star, Radio, Play, Mic, MessageCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Starfield } from "@/components/hero/Starfield";
+import { Platforms } from "@/components/Platforms";
 
 type Status = "idle" | "submitting" | "success";
 
@@ -144,6 +145,20 @@ export function ComingSoon() {
           A new universe of entertainment.
         </motion.p>
 
+        <motion.p
+          className="mt-4 max-w-xl text-sm leading-relaxed text-white/70 sm:text-base"
+          style={{
+            textShadow: "0 1px 0 rgba(0,0,0,0.6), 0 4px 12px rgba(0,0,0,0.5)",
+          }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: REVEAL_OFFSET + 1.8 }}
+        >
+          Virgo TV is a next-generation streaming platform combining
+          on-demand originals, live shows, and podcasts with a built-in
+          live-chat community. Watch, stream, and connect — all in one place.
+        </motion.p>
+
         <motion.ul
           className="mt-10 grid w-full max-w-md grid-cols-1 gap-3 text-left sm:grid-cols-2"
           initial="hidden"
@@ -196,7 +211,7 @@ export function ComingSoon() {
           className="mt-10 flex w-full max-w-md flex-col gap-3 sm:flex-row"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: REVEAL_OFFSET + 2.5 }}
+          transition={{ duration: 0.6, delay: REVEAL_OFFSET + 2.6 }}
         >
           <label htmlFor="waitlist-email" className="sr-only">
             Email address
@@ -232,11 +247,13 @@ export function ComingSoon() {
           </p>
         )}
 
+        <Platforms delay={REVEAL_OFFSET + 3.0} />
+
         <motion.p
-          className="mt-12 text-xs text-white/40"
+          className="mt-10 text-xs text-white/40"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: REVEAL_OFFSET + 3 }}
+          transition={{ duration: 0.6, delay: REVEAL_OFFSET + 3.6 }}
         >
           © 2026 Virgo TV
         </motion.p>
