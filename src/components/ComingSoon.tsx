@@ -12,8 +12,9 @@ import { Starfield } from "@/components/hero/Starfield";
 type Status = "idle" | "submitting" | "success";
 
 const COMING_SOON_WORDS = ["COMING", "SOON"];
-// Reveal cadence assumes a curtain reveal finishes ~2.2s after page load.
-const REVEAL_OFFSET = 2.3;
+// Reveal cadence — curtains finish ~2.65s in (8 strips × 0.05s stagger + 1.9s draw + 0.4s delay).
+// Hold an extra beat so the page is empty when the curtains finish, then content begins.
+const REVEAL_OFFSET = 2.9;
 
 const PROVIDING = [
   { Icon: Star, label: "Virgo Originals" },
