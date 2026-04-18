@@ -1,12 +1,12 @@
 import { ComingSoon } from "@/components/ComingSoon";
-import { CurtainReveal } from "@/components/CurtainReveal";
+import { RevealShell } from "@/components/reveal/RevealShell";
 
 export default function Home() {
   return (
     <main>
-      <CurtainReveal>
+      <RevealShell>
         <ComingSoon />
-      </CurtainReveal>
+      </RevealShell>
     </main>
   );
 }
