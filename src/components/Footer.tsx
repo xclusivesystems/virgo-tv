@@ -1,4 +1,4 @@
-import { Instagram, Twitter, Youtube, Tv } from "lucide-react";
+import { Tv, Share2, Rss, Video } from "lucide-react";
 
 export function Footer() {
   return (
@@ -10,13 +10,13 @@ export function Footer() {
         </p>
         <div className="flex items-center gap-5">
           <a href="#" aria-label="Instagram" className="transition-colors hover:text-white">
-            <Instagram className="h-5 w-5" />
+            <Share2 className="h-5 w-5" />
           </a>
-          <a href="#" aria-label="Twitter" className="transition-colors hover:text-white">
-            <Twitter className="h-5 w-5" />
+          <a href="#" aria-label="Twitter / X" className="transition-colors hover:text-white">
+            <Rss className="h-5 w-5" />
           </a>
           <a href="#" aria-label="YouTube" className="transition-colors hover:text-white">
-            <Youtube className="h-5 w-5" />
+            <Video className="h-5 w-5" />
           </a>
         </div>
         <p className="text-xs text-white/40">© 2026 Virgo TV · All rights reserved.</p>
