@@ -14,7 +14,7 @@ const PANELS = [
   { x: "50%", y: "50%", z: 0, scale: 1.1 },
 ];
 
-type HoloPhase = "boot" | "rush" | "resolve";
+type HoloPhase = "boot" | "rush" | "resolve" | "logo";
 
 export function HoloBoot({ onComplete }: Props) {
   const completedRef = useRef(false);
@@ -23,8 +23,9 @@ export function HoloBoot({ onComplete }: Props) {
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 640);
-    const t1 = window.setTimeout(() => setPhase("rush"), 2000);
-    const t2 = window.setTimeout(() => setPhase("resolve"), 2500);
+    const t1 = window.setTimeout(() => setPhase("rush"), 2800);
+    const t2 = window.setTimeout(() => setPhase("resolve"), 3300);
+    const t3 = window.setTimeout(() => setPhase("logo"), 3500);
     const tComplete = window.setTimeout(() => {
       if (!completedRef.current) {
         completedRef.current = true;
@@ -34,6 +35,7 @@ export function HoloBoot({ onComplete }: Props) {
     return () => {
       window.clearTimeout(t1);
       window.clearTimeout(t2);
+      window.clearTimeout(t3);
       window.clearTimeout(tComplete);
     };
   }, [onComplete]);
@@ -72,7 +74,7 @@ export function HoloBoot({ onComplete }: Props) {
       <motion.div
         initial={{ y: "100%" }}
         animate={{ y: "0%" }}
-        transition={{ duration: 0.4, delay: 0.1, ease: REVEAL.ease.decel }}
+        transition={{ duration: 0.5, delay: 0.1, ease: REVEAL.ease.decel }}
         style={{
           position: "absolute",
           left: 0,
@@ -109,11 +111,15 @@ export function HoloBoot({ onComplete }: Props) {
                   ? { opacity: 0, scale: p.scale * 1.5, z: 800 }
                   : phase === "rush" && isCenter
                     ? { opacity: 1, scale: 1.4, z: 100 }
-                    : { opacity: 1, scale: 1, z: 0 }  // resolve: center settles
+                    : phase === "resolve" && isCenter
+                      ? { opacity: 1, scale: 1, z: 0 }  // settles
+                      : phase === "logo" && isCenter
+                        ? { opacity: 0, scale: 1.6, z: 200 }  // dissolves into logo
+                        : { opacity: 0 }  // outer panels stay gone in resolve/logo
             }
             transition={{
-              duration: phase === "rush" ? 0.5 : 0.6,
-              delay: phase === "boot" ? 0.5 + i * 0.08 : 0,
+              duration: phase === "rush" ? 0.5 : 0.8,
+              delay: phase === "boot" ? 0.7 + i * 0.1 : 0,
               ease: phase === "rush" ? REVEAL.ease.warpAccel : REVEAL.ease.bounce,
             }}
             style={{
@@ -134,7 +140,7 @@ export function HoloBoot({ onComplete }: Props) {
                 inset: 0,
                 animation:
                   isCenter
-                    ? "virgoHoloGlitch 60ms linear 1.7s 1"
+                    ? "virgoHoloGlitch 60ms linear 2.3s 1"
                     : undefined,
               }}
             >
@@ -153,7 +159,7 @@ export function HoloBoot({ onComplete }: Props) {
                 animate={{ x: "100%" }}
                 transition={{
                   duration: 1.6,
-                  delay: 1.1 + i * 0.05,
+                  delay: 1.5 + i * 0.05,
                   ease: "linear",
                 }}
                 style={{
@@ -174,7 +180,7 @@ export function HoloBoot({ onComplete }: Props) {
                 animate={{ y: "100%", opacity: [0, 1, 0] }}
                 transition={{
                   duration: 0.4,
-                  delay: 1.5 + i * 0.06,
+                  delay: 1.9 + i * 0.06,
                   ease: "linear",
                 }}
                 style={{
@@ -209,6 +215,47 @@ export function HoloBoot({ onComplete }: Props) {
           </motion.div>
         );
       })}
+
+      {/* Logo finale — pops in during logo phase */}
+      {phase === "logo" && (
+        <motion.div
+          key="logo"
+          initial={{ opacity: 0, scale: 0.4 }}
+          animate={{ opacity: 1, scale: [0.4, 1.1, 1.0] }}
+          transition={{ duration: 0.7, ease: REVEAL.ease.bounce, times: [0, 0.65, 1] }}
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div style={{ position: "relative", width: 360, height: 360, filter: "drop-shadow(0 0 40px rgba(34,211,238,0.55)) drop-shadow(0 0 80px rgba(217,70,239,0.3))" }}>
+            <Image
+              src="/logo.png"
+              alt="Virgo TV"
+              fill
+              priority
+              sizes="360px"
+              style={{ objectFit: "contain" }}
+            />
+            {/* Cyan shimmer sweep */}
+            <motion.div
+              initial={{ x: "-120%", opacity: 0 }}
+              animate={{ x: "120%", opacity: [0, 1, 0] }}
+              transition={{ duration: 0.8, delay: 0.3, ease: "linear" }}
+              style={{
+                position: "absolute",
+                inset: 0,
+                background: "linear-gradient(110deg, transparent 30%, rgba(34,211,238,0.55) 50%, transparent 70%)",
+                mixBlendMode: "screen",
+                pointerEvents: "none",
+              }}
+            />
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }
