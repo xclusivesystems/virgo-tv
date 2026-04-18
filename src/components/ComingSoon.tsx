@@ -90,7 +90,11 @@ export function ComingSoon() {
 
         <motion.h1
           aria-label="Coming Soon"
-          className="mt-8 flex items-center justify-center gap-1 text-3xl font-semibold tracking-[0.25em] sm:text-4xl"
+          className="mt-8 flex items-center justify-center gap-1 text-4xl font-extrabold tracking-[0.28em] sm:text-5xl md:text-6xl"
+          style={{
+            filter:
+              "drop-shadow(0 0 14px rgba(225,29,116,0.55)) drop-shadow(0 0 28px rgba(45,212,255,0.35)) drop-shadow(0 6px 10px rgba(0,0,0,0.7)) drop-shadow(0 1px 0 rgba(0,0,0,0.9))",
+          }}
           initial="hidden"
           animate="visible"
           variants={{
@@ -106,7 +110,7 @@ export function ComingSoon() {
           {COMING_SOON.split("").map((ch, i) => (
             <motion.span
               key={`${ch}-${i}`}
-              className="inline-block text-brand-gradient"
+              className="relative inline-block text-brand-gradient"
               variants={{
                 hidden: { opacity: 0, y: 16, filter: "blur(8px)" },
                 visible: {
@@ -123,7 +127,11 @@ export function ComingSoon() {
         </motion.h1>
 
         <motion.p
-          className="mt-4 max-w-md text-base text-white/70 sm:text-lg"
+          className="mt-5 max-w-md text-base text-white/85 sm:text-lg"
+          style={{
+            textShadow:
+              "0 1px 0 rgba(0,0,0,0.6), 0 4px 14px rgba(0,0,0,0.7), 0 0 18px rgba(45,212,255,0.18)",
+          }}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: REVEAL_OFFSET + 1.7 }}
@@ -148,7 +156,11 @@ export function ComingSoon() {
           {PROVIDING.map(({ Icon, label }) => (
             <motion.li
               key={label}
-              className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2.5 text-sm text-white/85"
+              className="flex items-center gap-3 rounded-lg border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.02] px-3 py-2.5 text-sm font-medium text-white"
+              style={{
+                boxShadow:
+                  "inset 0 1px 0 rgba(255,255,255,0.08), 0 6px 18px rgba(0,0,0,0.45), 0 0 0 1px rgba(0,0,0,0.4)",
+              }}
               variants={{
                 hidden: { opacity: 0, x: -10 },
                 visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
@@ -156,9 +168,20 @@ export function ComingSoon() {
             >
               <Icon
                 className="h-4 w-4 shrink-0"
-                style={{ color: "var(--brand-magenta)" }}
+                style={{
+                  color: "var(--brand-magenta)",
+                  filter:
+                    "drop-shadow(0 0 6px rgba(225,29,116,0.6)) drop-shadow(0 1px 1px rgba(0,0,0,0.6))",
+                }}
               />
-              <span>{label}</span>
+              <span
+                style={{
+                  textShadow:
+                    "0 1px 0 rgba(0,0,0,0.6), 0 2px 6px rgba(0,0,0,0.5)",
+                }}
+              >
+                {label}
+              </span>
             </motion.li>
           ))}
         </motion.ul>
