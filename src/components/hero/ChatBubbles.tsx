@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 
 interface Bubble {
   id: number;
@@ -19,16 +19,20 @@ const HUES: Record<Bubble["hue"], string> = {
 };
 
 export function ChatBubbles() {
-  const bubbles = useMemo<Bubble[]>(() => {
+  const [bubbles, setBubbles] = useState<Bubble[]>([]);
+
+  useEffect(() => {
     const huesList: Bubble["hue"][] = ["purple", "magenta", "blue"];
-    return Array.from({ length: 14 }, (_, i) => ({
-      id: i,
-      left: Math.random() * 100,
-      delay: Math.random() * 10,
-      duration: 14 + Math.random() * 10,
-      scale: 0.6 + Math.random() * 0.9,
-      hue: huesList[i % 3]!,
-    }));
+    setBubbles(
+      Array.from({ length: 14 }, (_, i) => ({
+        id: i,
+        left: Math.random() * 100,
+        delay: Math.random() * 10,
+        duration: 14 + Math.random() * 10,
+        scale: 0.6 + Math.random() * 0.9,
+        hue: huesList[i % 3]!,
+      })),
+    );
   }, []);
 
   return (
