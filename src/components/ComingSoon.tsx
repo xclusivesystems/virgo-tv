@@ -11,7 +11,7 @@ import { Starfield } from "@/components/hero/Starfield";
 
 type Status = "idle" | "submitting" | "success";
 
-const COMING_SOON = "COMING SOON";
+const COMING_SOON_WORDS = ["COMING", "SOON"];
 // Reveal cadence assumes a curtain reveal finishes ~2.2s after page load.
 const REVEAL_OFFSET = 2.3;
 
@@ -84,13 +84,13 @@ export function ComingSoon() {
             width={900}
             height={600}
             priority
-            className="h-auto w-[min(80vw,520px)] drop-shadow-[0_0_50px_rgba(225,29,116,0.35)]"
+            className="h-auto w-[min(85vw,520px)] drop-shadow-[0_0_50px_rgba(225,29,116,0.35)]"
           />
         </motion.div>
 
         <motion.h1
           aria-label="Coming Soon"
-          className="mt-8 flex items-center justify-center gap-1 text-4xl font-extrabold tracking-[0.28em] sm:text-5xl md:text-6xl"
+          className="mt-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-3xl font-extrabold leading-tight tracking-[0.18em] sm:text-5xl sm:tracking-[0.24em] md:text-6xl md:tracking-[0.28em]"
           style={{
             filter:
               "drop-shadow(0 0 14px rgba(225,29,116,0.55)) drop-shadow(0 0 28px rgba(45,212,255,0.35)) drop-shadow(0 6px 10px rgba(0,0,0,0.7)) drop-shadow(0 1px 0 rgba(0,0,0,0.9))",
@@ -107,22 +107,26 @@ export function ComingSoon() {
             },
           }}
         >
-          {COMING_SOON.split("").map((ch, i) => (
-            <motion.span
-              key={`${ch}-${i}`}
-              className="relative inline-block text-brand-gradient"
-              variants={{
-                hidden: { opacity: 0, y: 16, filter: "blur(8px)" },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  filter: "blur(0px)",
-                  transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-                },
-              }}
-            >
-              {ch === " " ? "\u00A0" : ch}
-            </motion.span>
+          {COMING_SOON_WORDS.map((word, wi) => (
+            <span key={word} className="inline-flex whitespace-nowrap">
+              {word.split("").map((ch, i) => (
+                <motion.span
+                  key={`${wi}-${ch}-${i}`}
+                  className="relative inline-block text-brand-gradient"
+                  variants={{
+                    hidden: { opacity: 0, y: 16, filter: "blur(8px)" },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      filter: "blur(0px)",
+                      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+                    },
+                  }}
+                >
+                  {ch}
+                </motion.span>
+              ))}
+            </span>
           ))}
         </motion.h1>
 
