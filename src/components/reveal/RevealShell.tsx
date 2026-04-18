@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback, type ReactNode } from "react";
 import { resolveConcept, REVEAL, type Concept } from "./shared/revealTokens";
 import { usePreloadAssets } from "./shared/usePreloadAssets";
+import { CosmicWarp } from "./CosmicWarp";
 
 const COSMIC_ASSETS = [
   "/reveal/cosmic/nebula-plate.webp",
@@ -70,14 +71,8 @@ export function RevealShell({ children }: Props) {
             pointerEvents: "none",
           }}
         >
-          <button
-            type="button"
-            onClick={handleComplete}
-            style={{ position: "absolute", inset: 0, opacity: 0 }}
-            data-testid="reveal-skip"
-            tabIndex={-1}
-            aria-hidden="true"
-          />
+          {concept === "cosmic" && <CosmicWarp onComplete={handleComplete} />}
+          {/* {concept === "holo" && <HoloBoot onComplete={handleComplete} />} — Task 11 */}
         </div>
       )}
     </>
