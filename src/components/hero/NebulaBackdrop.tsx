@@ -15,11 +15,11 @@ export function NebulaBackdrop() {
         src={POSTER}
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 h-full w-full object-cover md:hidden motion-reduce:block"
+        className="absolute inset-0 hidden h-full w-full object-cover motion-reduce:block"
       />
 
       <video
-        className="absolute inset-0 hidden h-full w-full object-cover md:block motion-reduce:hidden"
+        className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
         autoPlay
         muted
         loop
