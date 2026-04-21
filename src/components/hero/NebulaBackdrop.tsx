@@ -31,6 +31,15 @@ export function NebulaBackdrop() {
         <source src={WEBM} type="video/webm" />
         <source src={MP4} type="video/mp4" />
       </video>
+
+      <div
+        aria-hidden="true"
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(circle 480px at 50% 48%, #0a0618 0%, #0a0618 55%, rgba(10,6,24,0.85) 75%, transparent 100%)",
+        }}
+      />
     </div>
   );
 }

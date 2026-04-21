@@ -86,9 +86,18 @@ export function ComingSoon() {
 
       <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-col items-center text-center">
         <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: REVEAL_OFFSET, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0, scale: 0.35, y: 30, filter: "blur(12px)" }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            filter: "blur(0px)",
+          }}
+          transition={{
+            duration: 1.3,
+            delay: REVEAL_OFFSET,
+            ease: [0.16, 1.1, 0.3, 1],
+          }}
         >
           <Image
             src="/logo.png"
@@ -96,7 +105,7 @@ export function ComingSoon() {
             width={900}
             height={600}
             priority
-            className="h-auto w-[min(85vw,520px)] drop-shadow-[0_0_50px_rgba(225,29,116,0.35)]"
+            className="h-auto w-[min(85vw,520px)] drop-shadow-[0_0_70px_rgba(225,29,116,0.5)]"
           />
         </motion.div>
 
