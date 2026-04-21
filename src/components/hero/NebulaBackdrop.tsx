@@ -37,7 +37,7 @@ export function NebulaBackdrop() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(circle 480px at 50% 48%, #0a0618 0%, #0a0618 55%, rgba(10,6,24,0.85) 75%, transparent 100%)",
+            "radial-gradient(circle clamp(180px, 32vw, 480px) at 50% 48%, #0a0618 0%, #0a0618 55%, rgba(10,6,24,0.85) 75%, transparent 100%)",
         }}
       />
     </div>
