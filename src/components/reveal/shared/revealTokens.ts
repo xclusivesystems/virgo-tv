@@ -1,7 +1,9 @@
 export const REVEAL = {
-  totalDuration: 3.2,        // seconds, full reveal layer lifetime
-  contentRevealAt: 2.9,      // seconds, when onComplete fires
+  totalDuration: 4.8,        // seconds, full reveal layer lifetime
+  contentRevealAt: 4.5,      // seconds, when onComplete fires
   layerFadeOut: 0.3,         // seconds, reveal layer fade after onComplete
+  logoPopAt: 3.5,            // seconds, when logo finale begins (each concept)
+  logoHold: 1.0,             // seconds, logo pop+hold duration before content
   brand: {
     magenta: "#d946ef",
     blue: "#3b82f6",
