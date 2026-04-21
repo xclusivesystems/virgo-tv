@@ -7,15 +7,15 @@ import { toast } from "sonner";
 import { Star, Radio, Play, Mic, MessageCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { NebulaBackdrop } from "@/components/hero/NebulaBackdrop";
 import { Starfield } from "@/components/hero/Starfield";
 import { Platforms } from "@/components/Platforms";
 
 type Status = "idle" | "submitting" | "success";
 
 const COMING_SOON_WORDS = ["COMING", "SOON"];
-// Reveal cadence — curtains finish ~2.65s in (8 strips × 0.05s stagger + 1.9s draw + 0.4s delay).
-// Hold an extra beat so the page is empty when the curtains finish, then content begins.
-const REVEAL_OFFSET = 2.9;
+// Reveal cadence — RevealShell concept finishes its logo finale at t=4.5s, then content fades in.
+const REVEAL_OFFSET = 4.5;
 
 const PROVIDING = [
   { Icon: Star, label: "Virgo Originals" },
@@ -72,6 +72,7 @@ export function ComingSoon() {
             "radial-gradient(ellipse at 30% 30%, rgba(107,47,179,0.30), transparent 55%), radial-gradient(ellipse at 70% 70%, rgba(225,29,116,0.20), transparent 60%), #0a0618",
         }}
       />
+      <NebulaBackdrop />
       <Starfield />
 
       <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-col items-center text-center">
