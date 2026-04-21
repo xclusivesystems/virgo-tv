@@ -7,7 +7,7 @@ const MP4 = "/hero/nebula-backdrop.mp4";
 export function NebulaBackdrop() {
   return (
     <div
-      className="pointer-events-none absolute inset-0 overflow-hidden"
+      className="pointer-events-none absolute inset-x-0 top-0 h-screen overflow-hidden"
       style={{ zIndex: -25 }}
       aria-hidden="true"
     >

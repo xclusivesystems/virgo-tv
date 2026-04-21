@@ -73,6 +73,15 @@ export function ComingSoon() {
         }}
       />
       <NebulaBackdrop />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-screen"
+        style={{
+          zIndex: -15,
+          background:
+            "radial-gradient(ellipse 55% 65% at 50% 50%, rgba(10,6,24,0.55), transparent 70%)",
+        }}
+      />
       <Starfield />
 
       <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-col items-center text-center">
