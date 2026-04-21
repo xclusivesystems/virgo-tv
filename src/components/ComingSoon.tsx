@@ -64,7 +64,7 @@ export function ComingSoon() {
   };
 
   return (
-    <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-6 py-16">
+    <section className="relative isolate flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-6 py-16">
       <div
         className="absolute inset-0 -z-30"
         style={{
